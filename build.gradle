@@ -1,0 +1,83 @@
+group 'com.gradle.example'
+version '1.0-SNAPSHOT'
+
+// gradle构建需要的仓库和依赖
+buildscript {
+    //定义扩展属性(可选)
+    ext {
+        springBootVersion = "1.5.8.RELEASE"
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+// 所有项目都采用该配置
+allprojects {
+    // 所有项目都使用相同的group和版本
+    group 'com.gradle.example'
+    version '1.0.0-SNAPSHOT'
+
+    // 插件
+    apply plugin: 'java'
+    apply plugin: 'war'
+    apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
+
+    // JVM版本要求
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    // java编译的时候缺省状态下会因为中文字符而失败
+    [compileJava,compileTestJava,javadoc]*.options*.encoding = 'UTF-8'
+
+    // 定义仓库
+    repositories {
+        maven{url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        maven{url 'https://mvnrepository.com/'}
+        mavenLocal()
+        mavenCentral()
+    }
+
+    sourceSets {
+        main {
+            java {
+                srcDir 'src/main/java'
+            }
+            resources {
+                srcDir 'src/main/resources'
+            }
+        }
+    }
+}
+
+// 依赖版本号
+ext {
+    springBootVersion = '2.1.5.RELEASE'
+    lombokVersion = '1.18.6'
+}
+
+// 依赖
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.boot:spring-boot-dependencies:${springBootVersion}'
+    }
+
+    dependencies {
+        dependency 'org.projectlombok:lombok:${lombokVersion}'
+    }
+}
+
+//dependencyManagement {
+//    dependencies {
+//        dependency('org.springframework:spring-core:4.0.3.RELEASE') {
+//            exclude 'commons-logging:commons-logging' }
+//    }
+//}
+
+task hello {
+    println('hello gradle')
+}
