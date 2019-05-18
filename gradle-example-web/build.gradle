@@ -1,4 +1,10 @@
 dependencies {
     compile project(':gradle-example-core')
-    compile 'org.springframework.boot:spring-boot-starter-web'
+}
+
+// 打包插件
+apply plugin: "org.springframework.boot"
+
+springBoot {
+    mainClassName = 'com.gradle.example.GradleExampleApplication'
 }

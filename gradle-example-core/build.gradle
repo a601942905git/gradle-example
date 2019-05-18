@@ -1,4 +1,5 @@
 dependencies {
     compile project(':gradle-example-api')
     compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'com.google.guava:guava'
 }
